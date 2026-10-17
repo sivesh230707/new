@@ -19,8 +19,8 @@ This compiles the React frontend, builds the Electron main process, and generate
 
 ## Step 2: Upload to GitHub Releases
 
-1. On GitHub, open your repository: `https://github.com/<YOUR-USERNAME>/easyinstaller`
-2. In the right sidebar, click **Releases** &rarr; **Draft a new release** (or go to `https://github.com/<YOUR-USERNAME>/easyinstaller/releases/new`).
+1. On GitHub, open your repository: `https://github.com/sivesh230707/new`
+2. In the right sidebar, click **Releases** &rarr; **Draft a new release** (or go to `https://github.com/sivesh230707/new/releases/new`).
 3. Fill in the release details:
    * **Tag version**: `v1.0.0` (click *Create new tag: v1.0.0 on publish*)
    * **Release title**: `GitHub Installer v1.0.0`
@@ -36,9 +36,9 @@ This compiles the React frontend, builds the Electron main process, and generate
 1. Open `landing/index.html`.
 2. Locate line 316 near the top of the `<script>` tag:
    ```javascript
-   const DOWNLOAD_URL = "https://github.com/sivesh230707/easyinstaller/releases/latest/download/GitHub-Installer-Setup.exe";
+   const DOWNLOAD_URL = "https://github.com/sivesh230707/new/releases/latest/download/GitHub-Installer-Setup.exe";
    ```
-3. If using your own repository name or username, update `sivesh230707/easyinstaller` to match your GitHub repository.
+3. If using your own repository name or username, update it to match your GitHub repository.
 4. Save the file.
 
 ---
@@ -54,7 +54,7 @@ You can host the landing page completely free on GitHub Pages:
    * **Source**: `Deploy from a branch`
    * **Branch**: Select `main` and choose the `/landing` or `/(root)` folder (if deploying from root, you can place `landing/index.html` at repository root or use a GitHub Actions Pages workflow).
 4. Click **Save**. Within 1–2 minutes, your website will be live at:
-   `https://<YOUR-USERNAME>.github.io/easyinstaller/`
+   `https://sivesh230707.github.io/new/`
 
 ### Method B: Free Instant Hosting on Netlify (Drag & Drop)
 1. Go to [app.netlify.com/drop](https://app.netlify.com/drop).
