@@ -10,7 +10,8 @@
     "build:electron": "esbuild electron/main.ts electron/preload.ts --platform=node --outdir=dist-electron --bundle --external:electron --external:adm-zip",
     "build:renderer": "vite build",
     "build": "npm run build:renderer && npm run build:electron",
-    "dist": "npm run build && electron-builder --win"
+    "build:win": "npm run build && electron-builder --win nsis",
+    "dist": "npm run build:win"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
@@ -47,17 +48,20 @@
       "dist-electron/**/*"
     ],
     "win": {
-      "target": [
-        "nsis",
-        "portable"
-      ],
+      "target": "nsis",
+      "icon": "build/icon.ico",
+      "publisherName": "GitHub Installer",
       "sign": "./scripts/noop-sign.cjs"
     },
     "nsis": {
       "oneClick": true,
       "perMachine": false,
       "allowToChangeInstallationDirectory": false,
-      "deleteAppDataOnUninstall": true
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": true,
+      "artifactName": "GitHub-Installer-Setup.${ext}"
     }
   }
 }

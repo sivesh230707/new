@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Installer - One-Click Software for Windows</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <meta name="description" content="Download and install software from GitHub in one click. Free, simple, and designed for everyone on Windows 10 and 11.">
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --brand: #0284c7;
+      --brand-hover: #0369a1;
+      --brand-light: #e0f2fe;
+      --brand-border: #bae6fd;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 8px;
+      --shadow-soft: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      --shadow-hover: 0 12px 30px -4px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navigation Header */
+    header {
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+
+    .brand-logo img {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+    }
+
+    .nav-tag {
+      font-size: 0.8rem;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    /* SECTION 1: HERO */
+    .hero {
+      text-align: center;
+      padding: 60px 0 30px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--brand-light);
+      color: var(--brand);
+      border: 1px solid var(--brand-border);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge .dot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--brand);
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .hero p.tagline {
+      font-size: 1.35rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background-color: var(--brand);
+      color: #ffffff;
+      padding: 16px 36px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.3);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-download:hover {
+      background-color: var(--brand-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(2, 132, 199, 0.35);
+    }
+
+    .btn-download svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* SECTION 2: NOTE UNDER BUTTON */
+    .hero-note {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 14px;
+      font-weight: 500;
+    }
+
+    /* Download feedback banner */
+    .download-alert {
+      display: none;
+      background-color: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      margin: 20px auto 0;
+      max-width: 480px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* OS notice for non-windows */
+    .os-notice {
+      display: none;
+      background-color: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      margin: 16px auto 0;
+      max-width: 440px;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    /* SECTION 3: APP SCREENSHOT */
+    .screenshot-section {
+      padding: 40px 0 70px;
+    }
+
+    .screenshot-frame {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .screenshot-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: calc(var(--radius-lg) - 4px);
+    }
+
+    /* SECTION 4: THREE BENEFIT CARDS */
+    .benefits-section {
+      padding: 30px 0 70px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 44px;
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .benefit-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.2s ease;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: #cbd5e1;
+    }
+
+    .benefit-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--brand-light);
+      color: var(--brand);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .benefit-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 2;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .benefit-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* SECTION 5: HOW TO INSTALL IN 3 STEPS */
+    .steps-section {
+      padding: 40px 0 80px;
+      background: #ffffff;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 36px;
+    }
+
+    .step-item {
+      position: relative;
+      padding: 28px;
+      background: var(--bg-page);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #ffffff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .step-item h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-item p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* SECTION 6: SHORT FAQ */
+    .faq-section {
+      padding: 70px 0;
+    }
+
+    .faq-list {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .faq-item.highlight {
+      border-color: #bae6fd;
+      background: #f0f9ff;
+    }
+
+    .faq-item h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .faq-item p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .faq-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: #0284c7;
+      color: #ffffff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    /* SECTION 7: SIMPLE FOOTER */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 860px) {
+      .hero h1 { font-size: 2.4rem; }
+      .hero p.tagline { font-size: 1.15rem; }
+      .benefits-grid, .steps-grid { grid-template-columns: 1fr; gap: 20px; }
+      .screenshot-frame { padding: 8px; border-radius: var(--radius-md); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- CONFIGURATION SCRIPT                      -->
+  <!-- ========================================== -->
+  <script>
+    // Point this to your published GitHub Release installer link
+    const DOWNLOAD_URL = "https://github.com/sivesh230707/easyinstaller/releases/latest/download/GitHub-Installer-Setup.exe";
+
+    function triggerDownload(e) {
+      // Start download
+      const link = document.createElement("a");
+      link.href = DOWNLOAD_URL;
+      link.setAttribute("download", "GitHub-Installer-Setup.exe");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Show friendly confirmation message
+      const alertEl = document.getElementById("download-message");
+      if (alertEl) {
+        alertEl.style.display = "block";
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", function() {
+      // OS Detection: check if the user is running Windows
+      const isWindows = /Windows|Win32|Win64/i.test(navigator.userAgent || navigator.platform);
+      if (!isWindows) {
+        const osNotice = document.getElementById("os-warning");
+        if (osNotice) {
+          osNotice.style.display = "block";
+        }
+      }
+    });
+  </script>
+
+  <!-- Navigation -->
+  <div class="container">
+    <header>
+      <a href="#" class="brand-logo">
+        <img src="icon.png" alt="GitHub Installer Logo">
+        <span>GitHub Installer</span>
+      </a>
+      <span class="nav-tag">Windows App</span>
+    </header>
+  </div>
+
+  <!-- SECTION 1: HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span>Version 1.0.0 Now Available</span>
+      </div>
+
+      <h1>GitHub Installer</h1>
+      <p class="tagline">Download and install apps from GitHub in one click</p>
+
+      <button id="download-button" class="btn-download" onclick="triggerDownload(event)">
+        <svg viewBox="0 0 24 24">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Download for Windows</span>
+      </button>
+
+      <!-- SECTION 2: SMALL NOTE UNDER BUTTON -->
+      <p class="hero-note">Free · Windows 10 and 11 · Version 1.0.0</p>
+
+      <!-- Friendly post-click notification -->
+      <div id="download-message" class="download-alert">
+        🎉 Your download has started. Open the file to install.
+      </div>
+
+      <!-- Non-windows device banner -->
+      <div id="os-warning" class="os-notice">
+        ℹ️ This app is for Windows. Mac and Linux coming soon.
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: APP SCREENSHOT -->
+  <section class="screenshot-section">
+    <div class="container">
+      <div class="screenshot-frame">
+        <img src="screenshot.png" alt="GitHub Installer Application Preview">
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: THREE BENEFIT CARDS -->
+  <section class="benefits-section">
+    <div class="container">
+      <h2 class="section-title">Built for Everyone</h2>
+      <p class="section-subtitle">No code, no command line, no confusing zip files. Just click and run.</p>
+
+      <div class="benefits-grid">
+        <!-- Benefit 1 -->
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3>One-click install</h3>
+          <p>Automatically detects the right file for your PC (.exe, .msi, or portable), downloads it fast, and puts shortcuts right on your Desktop.</p>
+        </div>
+
+        <!-- Benefit 2 -->
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <h3>Easy updates</h3>
+          <p>See all your installed tools in one place. When authors release new versions, click "Update All" to upgrade everything in seconds.</p>
+        </div>
+
+        <!-- Benefit 3 -->
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3>Safe and simple</h3>
+          <p>Clear verified ratings and checksum protection. We check star counts and release signatures so you never have to guess.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: HOW TO INSTALL IN 3 STEPS -->
+  <section class="steps-section">
+    <div class="container">
+      <h2 class="section-title">How to Install</h2>
+      <p class="section-subtitle">Get started in less than 30 seconds</p>
+
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <h3>Download</h3>
+          <p>Click the "Download for Windows" button above to get the official <strong>GitHub-Installer-Setup.exe</strong>.</p>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <h3>Open the file</h3>
+          <p>Double-click the downloaded setup file. It installs in one click with zero complicated questions or admin passwords.</p>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <h3>Start using it</h3>
+          <p>The app will open automatically. Search for any tool or paste a GitHub link to install your favorite apps instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: SHORT FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">Clear answers to common questions</p>
+
+      <div class="faq-list">
+        <!-- Required question -->
+        <div class="faq-item highlight">
+          <span class="faq-badge">Important Help</span>
+          <h3>Windows shows a blue warning screen. What do I do?</h3>
+          <p>This is Windows SmartScreen protecting your PC against newly released software. To continue, click <strong>"More info"</strong>, then click <strong>"Run anyway"</strong>. GitHub Installer is completely safe, transparent, and open-source.</p>
+        </div>
+
+        <!-- Additional FAQ 1 -->
+        <div class="faq-item">
+          <h3>Is GitHub Installer completely free?</h3>
+          <p>Yes, 100% free and open-source under the MIT license. There are no subscriptions, hidden fees, or ads.</p>
+        </div>
+
+        <!-- Additional FAQ 2 -->
+        <div class="faq-item">
+          <h3>Do I need a GitHub account to install software?</h3>
+          <p>No account is required. You can search, browse, download, and update software immediately right out of the box.</p>
+        </div>
+
+        <!-- Additional FAQ 3 -->
+        <div class="faq-item">
+          <h3>Where are apps installed?</h3>
+          <p>Apps are neatly managed in your local user directory (<code>%LOCALAPPDATA%\GitHubInstaller\Apps</code>) with desktop shortcuts created for you, so it never alters protected system files.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: SIMPLE FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 GitHub Installer · Open source under MIT License</p>
+      <p style="margin-top: 6px;">Made for the open-source community</p>
+    </div>
+  </footer>
+
+</body>
+</html>
