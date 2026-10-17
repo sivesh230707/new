@@ -1,0 +1,4 @@
+{
+  "buildCommand": "echo 'Deploying landing page'",
+  "outputDirectory": "landing"
+}
