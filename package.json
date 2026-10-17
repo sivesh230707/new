@@ -50,7 +50,8 @@
       "target": [
         "nsis",
         "portable"
-      ]
+      ],
+      "sign": "./scripts/noop-sign.cjs"
     },
     "nsis": {
       "oneClick": true,
